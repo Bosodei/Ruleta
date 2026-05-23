@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ruleta de Preguntas Musicales</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #fbc2eb, #a18cd1);
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 800px;
+      background: white;
+      border-radius: 25px;
+      padding: 40px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: #666;
+      margin-bottom: 30px;
+    }
+
+    .question-box {
+      min-height: 220px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 4px dashed #a18cd1;
+      border-radius: 20px;
+      padding: 30px;
+      background: #f7f2ff;
+      transition: 0.3s;
+    }
+
+    .question {
+      font-size: 1.8rem;
+      color: #444;
+      line-height: 1.5;
+      font-weight: bold;
+    }
+
+    .spinning {
+      animation: pulse 0.5s infinite;
+      border-color: #ff5fa2;
+      background: #fff0f7;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+      100% { transform: scale(1); }
+    }
+
+    button {
+      margin-top: 30px;
+      padding: 15px 35px;
+      border: none;
+      border-radius: 15px;
+      background: linear-gradient(90deg, #ff5fa2, #8b5cf6);
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: 0.3s;
+      font-weight: bold;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: scale(1);
+    }
+
+    .footer {
+      margin-top: 25px;
+      color: #777;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎵 Ruleta de Preguntas</h1>
+    <p class="subtitle">Construyan juntos una playlist significativa</p>
+
+    <div class="question-box" id="questionBox">
+      <div class="question" id="questionText">
+        Presiona el botón para comenzar
+      </div>
+    </div>
+
+    <button id="spinButton">🎲 Girar Ruleta</button>
+
+    <div class="footer">
+      Respondan la pregunta y agreguen una canción a la playlist.
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      "¿Cuál es la canción perfecta para cantar a gritos en el carro?",
+      "¿Qué tema nos recuerda a nuestro primer viaje juntos?",
+      "Nombra 3 canciones que no pueden faltar para un atardecer en la carretera.",
+      "¿Qué canción hace que automáticamente quieran bajar las ventanas y subir el volumen?",
+      "¿Qué canción odiaba uno de los dos y el otro logró que le encantara?",
+      "¿Qué canción pondrían en un viaje sin destino fijo?",
+      "¿Qué tema suena a aventura juntos?",
+      "Si nuestra relación fuera una película, ¿cuál sería su tema principal?",
+      "¿Qué canción estaba sonando cuando nos dimos nuestro primer beso?",
+      "¿Cuál es nuestra canción, esa que siempre que suena nos hace buscarnos con la mirada?",
+      "¿Qué tema te recuerda a esa etapa donde recién nos estábamos conociendo?",
+      "¿Qué canción describe mejor cómo me ves?",
+      "¿Qué canción te hace pensar en un abrazo mío?",
+      "¿Qué canción te recuerda un momento pequeño pero importante de nosotros?",
+      "¿Qué canción elegirías para bailar lento conmigo aunque no hubiera música alrededor?",
+      "¿Cuál es esa canción culposa o vergonzosa que amas bailar?",
+      "Si tuviéramos que entrar a una fiesta como estrellas de rock, ¿qué canción elegiríamos?",
+      "¿Qué canción te pone de buenas inmediatamente?",
+      "¿Qué tema nos representa cuando estamos haciendo tonterías juntos?",
+      "¿Qué canción siempre termina convirtiéndose en karaoke?",
+      "¿Qué canción pondrías para describir nuestro lado más caótico?",
+      "¿Qué canción jamás admitirías públicamente que te encanta?",
+      "¿Qué artista o género musical te relaja después de un día pesado?",
+      "¿Qué canción elegiríamos para cocinar juntos y tomar vino?",
+      "¿Qué tema pondrías para una noche tranquila hablando hasta tarde?",
+      "¿Qué canción te transmite paz inmediata?",
+      "¿Qué canción pondrías un domingo de lluvia juntos?",
+      "¿Qué canción se siente como hogar?",
+      "¿Qué tema te gustaría escuchar acostados sin hacer nada?",
+      "¿Qué canción pondrías en un montaje de nuestra vida futura?",
+      "¿Qué tema suena a envejecer juntos?",
+      "¿Qué canción imaginas escuchando en un viaje importante dentro de muchos años?",
+      "¿Qué canción representa algo que todavía quieres vivir conmigo?",
+      "¿Qué canción guardarías para recordarnos incluso dentro de décadas?",
+      "¿Qué canción define perfectamente mi personalidad?",
+      "¿Qué canción te sorprende que me guste?",
+      "¿Qué tema jamás te cansarías de escuchar conmigo?",
+      "¿Qué canción sería nuestra despedida perfecta al final de una noche?",
+      "¿Qué canción resume mejor todo lo que somos?"
+    ];
+
+    const button = document.getElementById("spinButton");
+    const questionText = document.getElementById("questionText");
+    const questionBox = document.getElementById("questionBox");
+
+    let spinning = false;
+
+    button.addEventListener("click", () => {
+      if (spinning) return;
+
+      spinning = true;
+      questionBox.classList.add("spinning");
+      button.disabled = true;
+      button.textContent = "Girando...";
+
+      let count = 0;
+
+      const interval = setInterval(() => {
+        const randomIndex = Math.floor(Math.random() * questions.length);
+        questionText.textContent = questions[randomIndex];
+        count++;
+
+        if (count > 20) {
+          clearInterval(interval);
+
+          const finalIndex = Math.floor(Math.random() * questions.length);
+          questionText.textContent = questions[finalIndex];
+
+          spinning = false;
+          questionBox.classList.remove("spinning");
+          button.disabled = false;
+          button.textContent = "🎲 Girar Ruleta";
+        }
+      }, 100);
+    });
+  </script>
+</body>
+</html>
