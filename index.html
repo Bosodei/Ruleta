@@ -104,6 +104,7 @@ button:hover{
 button:disabled{
   opacity:0.6;
   cursor:not-allowed;
+  transform:none;
 }
 
 .category{
@@ -114,6 +115,7 @@ button:disabled{
   color:white;
   font-weight:bold;
   font-size:0.95rem;
+  transition:background 0.4s;
 }
 </style>
 </head>
@@ -122,73 +124,69 @@ button:disabled{
 
 <div class="container">
 
-<h1>🎵 Ruleta de Preguntas</h1>
-<p class="subtitle">Construyan una playlist con su historia</p>
+  <h1>🎵 Ruleta de Preguntas</h1>
+  <p class="subtitle">Construyan una playlist con su historia</p>
 
-<div class="category" id="category">🎲 Inicio</div>
+  <div class="category" id="category" style="background:#a18cd1;">🎲 Inicio</div>
 
-<div class="question-box" id="box">
-  <div class="question" id="question">
-    Presiona el botón para empezar
+  <div class="question-box" id="box">
+    <div class="question" id="question">
+      Presiona el botón para empezar
+    </div>
   </div>
-</div>
 
-<button id="btn">🎲 Girar Ruleta</button>
+  <button id="btn">🎲 Girar Ruleta</button>
 
 </div>
 
 <script>
 
 const questions = [
-"¿Cuál es la canción perfecta para cantar a gritos en el carro?",
-"¿Qué tema te recuerda a nuestro primer viaje juntos?",
-"¿Qué canción hace que automáticamente quieran bajar las ventanas y subir el volumen?",
-"¿Qué canción pondrías en un viaje sin destino fijo?",
-"¿Qué tema suena a “aventura juntos”?",
-"Si nuestra relación fuera una película, ¿cuál sería su tema principal?",
-"¿Cuál crees que es “nuestra” canción, esa que siempre que suena nos hace buscarnos con la mirada?",
-"¿Qué tema te recuerda a esa etapa donde recién nos estábamos conociendo?",
-"¿Qué canción describe mejor cómo me ves?",
-"¿Qué canción te hace pensar en un abrazo mío?",
-"¿Qué canción te recuerda un momento pequeño pero importante de nosotros?",
-"¿Qué canción elegirías para bailar lento conmigo aunque no hubiera música alrededor?",
-"¿Cuál es esa canción “culposa” o vergonzosa que amas bailar?",
-"Si tuviéras que entrar a una fiesta como estrella de rock, ¿qué canción elegirías",
-"¿Qué canción te pone de buenas inmediatamente?",
-"¿Qué tema nos representa cuando estamos haciendo tonterías juntos?",
-"¿Qué canción siempre termina convirtiéndose en karaoke?",
-"¿Qué canción pondrías para describir nuestro lado más caótico?",
-"¿Qué canción jamás admitirías públicamente que te encanta?",
-"¿Qué artista o género musical te relaja después de un día pesado?",
-"¿Qué canción elegirías para cocinar juntos?",
-"¿Qué tema pondrías para una noche tranquila hablando hasta tarde?",
-"¿Qué canción te transmite paz inmediata?",
-"¿Qué canción pondrías un domingo de lluvia juntos?",
-"¿Qué canción se siente como “hogar”?",
-"¿Qué tema te gustaría escuchar acostados sin hacer nada?",
-"¿Qué canción pondrías en un montaje de nuestra vida futura?",
-"¿Qué tema suena a “envejecer juntos”?",
-"¿Qué canción imaginas escuchando en un viaje importante dentro de muchos años?",
-"¿Qué canción representa algo que todavía quieres vivir conmigo?",
-"¿Qué canción guardarías para recordarnos incluso dentro de décadas?",
-"¿Qué canción define perfectamente mi personalidad?",
-"¿Qué tema jamás te cansarías de escuchar conmigo?",
-"¿Qué canción sería nuestra despedida perfecta al final de una noche?",
-"¿Qué canción resume mejor todo lo que somos?"
+  { text: "¿Cuál es la canción perfecta para cantar a gritos en el carro?",                                             category: "🚗 Aventura",   color: "#f97316" },
+  { text: "¿Qué tema te recuerda a nuestro primer viaje juntos?",                                                        category: "🗺️ Aventura",   color: "#f97316" },
+  { text: "¿Qué canción hace que automáticamente quieran bajar las ventanas y subir el volumen?",                        category: "🚗 Aventura",   color: "#f97316" },
+  { text: "¿Qué canción pondrías en un viaje sin destino fijo?",                                                         category: "🗺️ Aventura",   color: "#f97316" },
+  { text: "¿Qué tema suena a "aventura juntos"?",                                                                        category: "🗺️ Aventura",   color: "#f97316" },
+  { text: "Si nuestra relación fuera una película, ¿cuál sería su tema principal?",                                      category: "💜 Nosotros",   color: "#8b5cf6" },
+  { text: "¿Cuál crees que es \"nuestra\" canción, esa que siempre que suena nos hace buscarnos con la mirada?",         category: "💜 Nosotros",   color: "#8b5cf6" },
+  { text: "¿Qué tema te recuerda a esa etapa donde recién nos estábamos conociendo?",                                    category: "💜 Nosotros",   color: "#8b5cf6" },
+  { text: "¿Qué canción describe mejor cómo me ves?",                                                                   category: "💜 Nosotros",   color: "#8b5cf6" },
+  { text: "¿Qué canción te hace pensar en un abrazo mío?",                                                               category: "💜 Nosotros",   color: "#8b5cf6" },
+  { text: "¿Qué canción te recuerda un momento pequeño pero importante de nosotros?",                                    category: "💜 Nosotros",   color: "#8b5cf6" },
+  { text: "¿Qué canción elegirías para bailar lento conmigo aunque no hubiera música alrededor?",                        category: "💜 Nosotros",   color: "#8b5cf6" },
+  { text: "¿Cuál es esa canción \"culposa\" o vergonzosa que amas bailar?",                                              category: "🎉 Caos",       color: "#ec4899" },
+  { text: "Si tuvieras que entrar a una fiesta como estrella de rock, ¿qué canción elegirías?",                          category: "🎉 Caos",       color: "#ec4899" },
+  { text: "¿Qué canción te pone de buenas inmediatamente?",                                                              category: "🎉 Caos",       color: "#ec4899" },
+  { text: "¿Qué tema nos representa cuando estamos haciendo tonterías juntos?",                                          category: "🎉 Caos",       color: "#ec4899" },
+  { text: "¿Qué canción siempre termina convirtiéndose en karaoke?",                                                     category: "🎉 Caos",       color: "#ec4899" },
+  { text: "¿Qué canción pondrías para describir nuestro lado más caótico?",                                              category: "🎉 Caos",       color: "#ec4899" },
+  { text: "¿Qué canción jamás admitirías públicamente que te encanta?",                                                  category: "🎉 Caos",       color: "#ec4899" },
+  { text: "¿Qué artista o género musical te relaja después de un día pesado?",                                           category: "🌙 Calma",      color: "#0ea5e9" },
+  { text: "¿Qué canción elegirías para cocinar juntos?",                                                                 category: "🌙 Calma",      color: "#0ea5e9" },
+  { text: "¿Qué tema pondrías para una noche tranquila hablando hasta tarde?",                                           category: "🌙 Calma",      color: "#0ea5e9" },
+  { text: "¿Qué canción te transmite paz inmediata?",                                                                    category: "🌙 Calma",      color: "#0ea5e9" },
+  { text: "¿Qué canción pondrías un domingo de lluvia juntos?",                                                          category: "🌙 Calma",      color: "#0ea5e9" },
+  { text: "¿Qué canción se siente como \"hogar\"?",                                                                      category: "🌙 Calma",      color: "#0ea5e9" },
+  { text: "¿Qué tema te gustaría escuchar acostados sin hacer nada?",                                                    category: "🌙 Calma",      color: "#0ea5e9" },
+  { text: "¿Qué canción pondrías en un montaje de nuestra vida futura?",                                                 category: "🔮 Futuro",     color: "#10b981" },
+  { text: "¿Qué tema suena a "envejecer juntos"?",                                                                      category: "🔮 Futuro",     color: "#10b981" },
+  { text: "¿Qué canción imaginas escuchando en un viaje importante dentro de muchos años?",                              category: "🔮 Futuro",     color: "#10b981" },
+  { text: "¿Qué canción representa algo que todavía quieres vivir conmigo?",                                             category: "🔮 Futuro",     color: "#10b981" },
+  { text: "¿Qué canción guardarías para recordarnos incluso dentro de décadas?",                                         category: "🔮 Futuro",     color: "#10b981" },
+  { text: "¿Qué canción define perfectamente mi personalidad?",                                                          category: "💜 Nosotros",   color: "#8b5cf6" },
+  { text: "¿Qué tema jamás te cansarías de escuchar conmigo?",                                                           category: "💜 Nosotros",   color: "#8b5cf6" },
+  { text: "¿Qué canción sería nuestra despedida perfecta al final de una noche?",                                        category: "🌙 Calma",      color: "#0ea5e9" },
+  { text: "¿Qué canción resume mejor todo lo que somos?",                                                                category: "💜 Nosotros",   color: "#8b5cf6" },
 ];
 
-// 🔥 lista dinámica (se van eliminando)
 let availableQuestions = [...questions];
 
 const questionEl = document.getElementById("question");
-const btn = document.getElementById("btn");
-const box = document.getElementById("question-box");
+const categoryEl = document.getElementById("category");
+const btn        = document.getElementById("btn");
+const box        = document.getElementById("box"); // ✅ id correcto
 
 let spinning = false;
-
-function getRandomIndex() {
-  return Math.floor(Math.random() * availableQuestions.length);
-}
 
 btn.addEventListener("click", () => {
 
@@ -204,7 +202,7 @@ btn.addEventListener("click", () => {
   const interval = setInterval(() => {
 
     const tempIndex = Math.floor(Math.random() * availableQuestions.length);
-    questionEl.textContent = availableQuestions[tempIndex];
+    questionEl.textContent = availableQuestions[tempIndex].text;
 
     i++;
 
@@ -212,16 +210,18 @@ btn.addEventListener("click", () => {
 
       clearInterval(interval);
 
-      // 🎯 selección final sin repetición
-      const finalIndex = getRandomIndex();
-      const finalQuestion = availableQuestions[finalIndex];
+      // Selección final sin repetición
+      const finalIndex = Math.floor(Math.random() * availableQuestions.length);
+      const finalItem  = availableQuestions[finalIndex];
 
-      questionEl.textContent = finalQuestion;
+      questionEl.textContent    = finalItem.text;
+      categoryEl.textContent    = finalItem.category;
+      categoryEl.style.background = finalItem.color;
 
-      // ❌ eliminar pregunta usada
+      // Eliminar pregunta usada
       availableQuestions.splice(finalIndex, 1);
 
-      // 🔁 si se acaban, reiniciar
+      // Si se acaban, reiniciar
       if (availableQuestions.length === 0) {
         availableQuestions = [...questions];
       }
