@@ -141,29 +141,26 @@ button:disabled{
 
 const questions = [
 "¿Cuál es la canción perfecta para cantar a gritos en el carro?",
-"¿Qué tema nos recuerda a nuestro primer viaje juntos?",
-"Nombra 3 canciones que no pueden faltar para un atardecer en la carretera.",
+"¿Qué tema te recuerda a nuestro primer viaje juntos?",
 "¿Qué canción hace que automáticamente quieran bajar las ventanas y subir el volumen?",
-"¿Qué canción odiaba uno de los dos y el otro logró que le encantara?",
-"¿Qué canción pondrían en un viaje sin destino fijo?",
+"¿Qué canción pondrías en un viaje sin destino fijo?",
 "¿Qué tema suena a “aventura juntos”?",
 "Si nuestra relación fuera una película, ¿cuál sería su tema principal?",
-"¿Qué canción estaba sonando cuando nos dimos nuestro primer beso?",
-"¿Cuál es “nuestra” canción, esa que siempre que suena nos hace buscarnos con la mirada?",
+"¿Cuál crees que es “nuestra” canción, esa que siempre que suena nos hace buscarnos con la mirada?",
 "¿Qué tema te recuerda a esa etapa donde recién nos estábamos conociendo?",
 "¿Qué canción describe mejor cómo me ves?",
 "¿Qué canción te hace pensar en un abrazo mío?",
 "¿Qué canción te recuerda un momento pequeño pero importante de nosotros?",
 "¿Qué canción elegirías para bailar lento conmigo aunque no hubiera música alrededor?",
 "¿Cuál es esa canción “culposa” o vergonzosa que amas bailar?",
-"Si tuviéramos que entrar a una fiesta como estrellas de rock, ¿qué canción elegiríamos?",
+"Si tuviéras que entrar a una fiesta como estrella de rock, ¿qué canción elegirías",
 "¿Qué canción te pone de buenas inmediatamente?",
 "¿Qué tema nos representa cuando estamos haciendo tonterías juntos?",
 "¿Qué canción siempre termina convirtiéndose en karaoke?",
 "¿Qué canción pondrías para describir nuestro lado más caótico?",
 "¿Qué canción jamás admitirías públicamente que te encanta?",
 "¿Qué artista o género musical te relaja después de un día pesado?",
-"¿Qué canción elegiríamos para cocinar juntos y tomar vino?",
+"¿Qué canción elegirías para cocinar juntos?",
 "¿Qué tema pondrías para una noche tranquila hablando hasta tarde?",
 "¿Qué canción te transmite paz inmediata?",
 "¿Qué canción pondrías un domingo de lluvia juntos?",
@@ -175,58 +172,67 @@ const questions = [
 "¿Qué canción representa algo que todavía quieres vivir conmigo?",
 "¿Qué canción guardarías para recordarnos incluso dentro de décadas?",
 "¿Qué canción define perfectamente mi personalidad?",
-"¿Qué canción te sorprende que me guste?",
 "¿Qué tema jamás te cansarías de escuchar conmigo?",
 "¿Qué canción sería nuestra despedida perfecta al final de una noche?",
 "¿Qué canción resume mejor todo lo que somos?"
 ];
 
+// 🔥 lista dinámica (se van eliminando)
+let availableQuestions = [...questions];
+
 const questionEl = document.getElementById("question");
 const btn = document.getElementById("btn");
-const box = document.getElementById("box");
-const category = document.getElementById("category");
+const box = document.getElementById("question-box");
 
 let spinning = false;
-let last = "";
+
+function getRandomIndex() {
+  return Math.floor(Math.random() * availableQuestions.length);
+}
 
 btn.addEventListener("click", () => {
 
-if(spinning) return;
+  if (spinning) return;
 
-spinning = true;
-btn.disabled = true;
-btn.textContent = "Girando...";
-box.classList.add("spinning");
+  spinning = true;
+  btn.disabled = true;
+  btn.textContent = "Girando...";
+  box.classList.add("spinning");
 
-let i = 0;
+  let i = 0;
 
-const interval = setInterval(() => {
+  const interval = setInterval(() => {
 
-  const random = Math.floor(Math.random() * questions.length);
-  questionEl.textContent = questions[random];
+    const tempIndex = Math.floor(Math.random() * availableQuestions.length);
+    questionEl.textContent = availableQuestions[tempIndex];
 
-  i++;
+    i++;
 
-  if(i > 20){
+    if (i > 20) {
 
-    clearInterval(interval);
+      clearInterval(interval);
 
-    let final;
+      // 🎯 selección final sin repetición
+      const finalIndex = getRandomIndex();
+      const finalQuestion = availableQuestions[finalIndex];
 
-    do {
-      final = questions[Math.floor(Math.random() * questions.length)];
-    } while(final === last);
+      questionEl.textContent = finalQuestion;
 
-    questionEl.textContent = final;
-    last = final;
+      // ❌ eliminar pregunta usada
+      availableQuestions.splice(finalIndex, 1);
 
-    spinning = false;
-    btn.disabled = false;
-    btn.textContent = "🎲 Girar Ruleta";
-    box.classList.remove("spinning");
-  }
+      // 🔁 si se acaban, reiniciar
+      if (availableQuestions.length === 0) {
+        availableQuestions = [...questions];
+      }
 
-},100);
+      spinning = false;
+      btn.disabled = false;
+      btn.textContent = "🎲 Girar Ruleta";
+      box.classList.remove("spinning");
+    }
+
+  }, 100);
 
 });
 
